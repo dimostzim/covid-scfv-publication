@@ -30,8 +30,8 @@ library(readr)
 # Sample names to be analyzed (one per line in file) - must match colnames in df
 sample_cols <- readLines("scfv_extraction_output/focus_libs.txt")
 
-# MAnual reordering to have naive library controls moved to the front
-priority <- c("OG_LIB", "NEW_LIB")
+# Manual reordering to have naive library controls moved to the front (if present)
+priority <- intersect(c("OG_LIB", "NEW_LIB"), sample_cols)
 sample_cols <- c(priority, setdiff(sample_cols, priority))
 
 # manual samples
@@ -79,6 +79,23 @@ df <- read.table(
 )
 
 focus_libs <- read.table(libs)$V1
+
+# Keep only libraries that are present in the loaded table.
+missing_focus <- setdiff(focus_libs, colnames(df))
+if (length(missing_focus) > 0) {
+  warning("Dropping missing libraries from focus list: ", paste(missing_focus, collapse = ", "))
+}
+focus_libs <- setdiff(focus_libs, missing_focus)
+
+missing_samples <- setdiff(sample_cols, colnames(df))
+if (length(missing_samples) > 0) {
+  warning("Dropping missing samples: ", paste(missing_samples, collapse = ", "))
+}
+sample_cols <- setdiff(sample_cols, missing_samples)
+
+if (length(focus_libs) == 0 || length(sample_cols) == 0) {
+  stop("No valid sample columns found in seq2scFv output.")
+}
 
 ```
 
