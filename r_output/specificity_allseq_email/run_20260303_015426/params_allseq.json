@@ -1,0 +1,10 @@
+{
+  "candidates_csv": "/homes/dtzim01/lucsib/scfv_analysis/covid-scfv-publication/r_output/specificity_input/run_20260302_235533/candidates.csv",
+  "outdir": "/homes/dtzim01/lucsib/scfv_analysis/covid-scfv-publication/r_output/specificity_allseq_email/run_20260303_015426",
+  "present_col": "barcode09",
+  "kmer": 5,
+  "n_clusters": 20,
+  "heatmap_bins": 140,
+  "seed": 42,
+  "n_candidates": 8878
+}
